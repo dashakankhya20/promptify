@@ -19,12 +19,14 @@ const PromptCard = ({ post, handleTagClick, handleEdit, handleDelete }) => {
     setTimeout(() => setCopied(""), 3000);
   }
   //console.log(post)
+  //console.log(post.creator._id)
+  console.log(session?.user?.id)
   return (
     <div className="prompt_card">
       <div className="flex justify-between items-start gap-5">
         <div className="flex-1 flex justify-start items-center gap-3
         cursor-pointer">
-          <Link href={`/profile`}>
+          <Link href={`/profile/${post.creator._id}`}>
           <Image 
             src={post.creator.image}
             alt="user_image"
@@ -63,7 +65,7 @@ const PromptCard = ({ post, handleTagClick, handleEdit, handleDelete }) => {
       >
         {post.tag}
       </p>
-      {session?.user.id === post.creator._id && pathName === '/profile' && (
+      {session?.user.id === post.creator._id && pathName === `/profile/${session?.user?.id}` && (
         <div className="mt-5 flex-center gap-4 border-t border-gray-100 pt-3">
         <p
           className="font-inter text-sm green_gradient cursor-pointer"
