@@ -1,6 +1,6 @@
-# Promptopia
+# Promptify
 
-Promptify is a NextJS application where the user can create, view, update and delete prompts. The user can also view other people's profile where their prompts will be displayed. The application also provides search functionality allowing users to search by prompts, usernames and tags.
+Promptify is a NextJS application where the user can create, view, update and delete prompts. The user can also view other people's profiles where their prompts will be displayed. The application also provides search functionality allowing users to search by prompts, usernames and tags.
 
 
 # Tech Stack
