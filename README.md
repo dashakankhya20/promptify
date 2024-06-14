@@ -30,12 +30,12 @@ Promptify is a NextJS application that allows users to create, view, update, and
 > npm install
 3. Go to Google Cloud and create credentials.
 4. In the .env file, add the following
-> GOOGLE_ID
-> GOOGLE_CLIENT_SECRET
-> MONGODB_URI
-> NEXTAUTH_URL
-> NEXTAUTH_URL_INTERNAL
-> NEXTAUTH_SECRET
+- GOOGLE_ID
+- GOOGLE_CLIENT_SECRET
+- MONGODB_URI
+- NEXTAUTH_URL
+- NEXTAUTH_URL_INTERNAL
+- NEXTAUTH_SECRET
 5. Run the application locally.
 > npm run dev
 
