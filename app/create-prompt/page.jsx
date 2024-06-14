@@ -32,7 +32,7 @@ const CreatePrompt = () => {
       })
       // going to the front home page if everything is ok
       if (response.ok) {
-        router.push('/?refetch=true');
+        router.push('/');
       }
     } catch (error) {
       console.error(error);

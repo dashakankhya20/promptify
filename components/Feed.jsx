@@ -1,11 +1,11 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useSearchParams } from 'next/navigation';
 import Image from 'next/image'; // Import the Image component from next/image
 import PromptCard from './PromptCard';
 
 const PromptCardList = ({ data, handleTagClick }) => {
+
   return (
     <div className='mt-16 prompt_layout'>
       {data.map((post) => (
@@ -24,16 +24,14 @@ const Feed = () => {
   const [posts, setPosts] = useState([]);
   const [filteredPosts, setFilteredPosts] = useState([]);
   const [loading, setLoading] = useState(true); // Add loading state
-  const searchParams = useSearchParams();
-  const refetch = searchParams.get('refetch');
+
 
   const fetchPosts = async () => {
     setLoading(true); // Set loading to true when fetching starts
     const response = await fetch('/api/prompt', {
-      headers: {
-        'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
-        'Pragma': 'no-cache',
-        'Expires': '0'
+      cache: 'no-store',
+      next: {
+        revalidate: 0
       }
     });
     const data = await response.json();
@@ -46,7 +44,7 @@ const Feed = () => {
 
   useEffect(() => {
     fetchPosts();
-  }, [refetch]);
+  }, []);
 
   console.log(posts);
   const handleSearchChange = (e) => {
