@@ -7,7 +7,7 @@ const PromptCardList = ({ data, handleTagClick }) => {
   return (
     <div className='mt-16 prompt_layout'>
       {data.map((post) => (
-        <PromptCard 
+        <PromptCard
           key={post._id}
           post={post}
           handleTagClick={handleTagClick}
@@ -19,12 +19,17 @@ const PromptCardList = ({ data, handleTagClick }) => {
 
 const Feed = () => {
   const [searchText, setSearchText] = useState('');
-  const [ posts, setPosts ] = useState([]);
-  const [ filteredPosts, setFilteredPosts ] = useState([]);
+  const [posts, setPosts] = useState([]);
+  const [filteredPosts, setFilteredPosts] = useState([]);
 
   useEffect(() => {
     const fetchPosts = async () => {
-      const response = await fetch('/api/prompt');
+      const response = await fetch('/api/prompt', {
+        headers: {
+          'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate'
+        }
+      });
+
       const data = await response.json();
 
       setPosts(data);
@@ -41,26 +46,26 @@ const Feed = () => {
       const lowerPrompt = post.prompt.toLowerCase();
       const lowerTags = post.tag.toLowerCase();
       const lowerUsername = post.creator.username.toLowerCase();
-  
+
       return (
         lowerPrompt.includes(lowerSearchText) ||
         lowerTags.includes(lowerSearchText) ||
         lowerUsername.includes(lowerSearchText)
       );
     });
-  
+
     setFilteredPosts(results);
   }
-  
+
 
   console.log(posts)
 
   return (
     <section className='feed'>
       <form className='relative w-full flex-center'
-      onSubmit={(e) => {
-        e.preventDefault();
-      }}
+        onSubmit={(e) => {
+          e.preventDefault();
+        }}
       >
         <input
           type='text'
@@ -72,8 +77,8 @@ const Feed = () => {
         />
         {/* {console.log(searchText)} */}
       </form>
-    
-    {/* Conditional rendering of PromptCardList */}
+
+      {/* Conditional rendering of PromptCardList */}
       {searchText === '' ? (
         <PromptCardList data={posts} handleTagClick={() => { }} />
       ) : (
