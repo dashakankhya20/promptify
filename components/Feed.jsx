@@ -37,14 +37,18 @@ const Feed = () => {
       }
     });
     const data = await response.json();
-    setPosts(data);
-    setLoading(false); // Set loading to false when fetching ends
+    console.log("Data: ", data);
+    setTimeout(() => { // Add a delay to simulate fetching data
+      setPosts(data);
+      setLoading(false); // Set loading to false when fetching ends
+    }, 1000); // Simulate a delay of 1 second
   };
 
   useEffect(() => {
     fetchPosts();
   }, [refetch]);
 
+  console.log(posts);
   const handleSearchChange = (e) => {
     setSearchText(e.target.value);
     const lowerSearchText = e.target.value.toLowerCase();
