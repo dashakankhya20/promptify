@@ -1,6 +1,8 @@
 'use client';
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
+import Image from 'next/image'; // Import the Image component from next/image
 import PromptCard from './PromptCard';
 
 const PromptCardList = ({ data, handleTagClick }) => {
@@ -14,34 +16,38 @@ const PromptCardList = ({ data, handleTagClick }) => {
         />
       ))}
     </div>
-  )
-}
+  );
+};
 
 const Feed = () => {
   const [searchText, setSearchText] = useState('');
   const [posts, setPosts] = useState([]);
   const [filteredPosts, setFilteredPosts] = useState([]);
+  const [loading, setLoading] = useState(true); // Add loading state
+  const searchParams = useSearchParams();
+  const refetch = searchParams.get('refetch');
+
+  const fetchPosts = async () => {
+    setLoading(true); // Set loading to true when fetching starts
+    const response = await fetch('/api/prompt', {
+      headers: {
+        'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': '0'
+      }
+    });
+    const data = await response.json();
+    setPosts(data);
+    setLoading(false); // Set loading to false when fetching ends
+  };
 
   useEffect(() => {
-    const fetchPosts = async () => {
-      const response = await fetch('/api/prompt', {
-        headers: {
-          'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate'
-        }
-      });
-
-      const data = await response.json();
-
-      setPosts(data);
-    }
     fetchPosts();
-  }, []);
+  }, [refetch]);
 
   const handleSearchChange = (e) => {
     setSearchText(e.target.value);
     const lowerSearchText = e.target.value.toLowerCase();
-    // console.log(lowerSearchText);
-    // console.log(posts);
     const results = posts.filter(post => {
       const lowerPrompt = post.prompt.toLowerCase();
       const lowerTags = post.tag.toLowerCase();
@@ -53,12 +59,8 @@ const Feed = () => {
         lowerUsername.includes(lowerSearchText)
       );
     });
-
     setFilteredPosts(results);
-  }
-
-
-  console.log(posts)
+  };
 
   return (
     <section className='feed'>
@@ -75,17 +77,21 @@ const Feed = () => {
           required
           className='search_input peer'
         />
-        {/* {console.log(searchText)} */}
       </form>
 
-      {/* Conditional rendering of PromptCardList */}
-      {searchText === '' ? (
-        <PromptCardList data={posts} handleTagClick={() => { }} />
+      {loading ? ( // Conditional rendering based on loading state
+        <div className="flex justify-center items-center mt-10">
+          <Image src="/assets/images/loading_gif.gif" alt="Loading..." width={50} height={50} />
+        </div>
       ) : (
-        <PromptCardList data={filteredPosts} handleTagClick={() => { }} />
+        searchText === '' ? (
+          <PromptCardList data={posts} handleTagClick={() => { }} />
+        ) : (
+          <PromptCardList data={filteredPosts} handleTagClick={() => { }} />
+        )
       )}
     </section>
-  )
-}
+  );
+};
 
-export default Feed
+export default Feed;

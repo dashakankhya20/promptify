@@ -15,33 +15,33 @@ const CreatePrompt = () => {
     tag: ''
   })
 
-  const createPrompt = async(e) => {
+  const createPrompt = async (e) => {
     // to prevent the default behaviour of the browser reloading while the
     //form is submitted
     e.preventDefault();
     setSubmitting(true);
     //creating the new endpoint to post the data 
-    try{
+    try {
       const response = await fetch('/api/prompt/new', {
-        method:'POST',
+        method: 'POST',
         body: JSON.stringify({
           prompt: post.prompt,
           userId: session?.user.id,
           tag: post.tag
         })
       })
-  // going to the front home page if everything is ok
-      if(response.ok){
-        router.push('/');
+      // going to the front home page if everything is ok
+      if (response.ok) {
+        router.push('/?refetch=true');
       }
-    }catch(error){
+    } catch (error) {
       console.error(error);
-    }finally{
+    } finally {
       setSubmitting(false);
     }
   }
   return (
-    <Form 
+    <Form
       type="Create"
       post={post}
       setPost={setPost}

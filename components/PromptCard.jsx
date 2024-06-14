@@ -12,7 +12,6 @@ const PromptCard = ({ post, handleTagClick, handleEdit, handleDelete }) => {
   const router = useRouter();
 
   const [copied, setCopied] = useState("");
-
   const handleCopy = () => {
     setCopied(post.prompt);
     navigator.clipboard.writeText(post.prompt);
@@ -29,7 +28,7 @@ const PromptCard = ({ post, handleTagClick, handleEdit, handleDelete }) => {
           <Link href={`/profile/${post.creator._id}`}>
           <Image 
             src={post.creator.image}
-            alt="user_image"
+            alt="user image"
             width={40}
             height={40}
             className="rounded-full object-contain"
@@ -53,6 +52,7 @@ const PromptCard = ({ post, handleTagClick, handleEdit, handleDelete }) => {
             }
             width={12}
             height={12}
+            alt="Copy Icon"
           />
         </div>
       </div>
